@@ -1,6 +1,8 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:my_quran/models/surah/surah.dart';
+import 'package:my_quran/repository/quran_repository.dart';
 
 void main() {
   runApp(MyApp());
@@ -86,9 +88,14 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
       _counter++;
     });
     playQuran();
+    testQuranRepo();
   }
-  
-  
+
+  void testQuranRepo() async {
+    QuranRepository _quranRepo = QuranRepository();
+    List<Surah> _surahs = await _quranRepo.fetchSurahList();
+    _surahs.forEach((element) => print(element.name));
+  }
 
   @override
   Widget build(BuildContext context) {
