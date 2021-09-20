@@ -1,7 +1,9 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
+import 'package:my_quran/bloc/quran_bloc.dart';
 import 'package:my_quran/models/surah/surah.dart';
+import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/repository/quran_repository.dart';
 
 void main() {
@@ -32,7 +34,7 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   int _counter = 0;
-
+  late QuranBloc qurBloc;
   late AudioPlayer quranPlayer;
   List<AudioSource> reciteUrls = <AudioSource>[
     AudioSource.uri(
@@ -53,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   @override
   void initState() {
+    qurBloc = QuranBloc();
     WidgetsBinding.instance!.addObserver(this);
     super.initState();
     quranPlayer = AudioPlayer();
@@ -64,6 +67,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
     WidgetsBinding.instance!.removeObserver(this);
     quranPlayer.dispose();
     super.dispose();
+    qurBloc.dispose();
   }
 
   void initAudio() async {
@@ -101,28 +105,10 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
             Text(
@@ -132,6 +118,23 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
+            StreamBuilder<APIResponse<List<Surah>>>(
+                stream: qurBloc.quranDataStream,
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    switch (snapshot.data!.status) {
+                      case Status.Loading:
+                        return CircularProgressIndicator();
+                      case Status.Error:
+                        return Text('Error');
+                      case Status.Complete:
+                        return Text('${snapshot.data!.data!.elementAt(3).name!.long}');
+                      default:
+                        throw Exception('Error');
+                    }
+                  }
+                  return Text('Loading');
+                }),
           ],
         ),
       ),

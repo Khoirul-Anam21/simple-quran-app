@@ -7,6 +7,7 @@ class QuranRepository {
 
   Future<List<Surah>> fetchSurahList() async {
     final response = await _helper.getData('');
-    return QuranModel.fromJson(response).listSurah;
+    var responseQuran = QuranModel.fromJson(response);
+    return responseQuran.listSurah!;
   }
 }

@@ -13,6 +13,7 @@ class APIBaseHelper {
 
     try {
       final Response apiResponse = await get(Uri.parse('$_baseURL$urlQuery'));
+      print('Accessing... $_baseURL$urlQuery');
       response = _returnResponse(apiResponse);
     } on SocketException {
       print('No internet connection');
@@ -27,7 +28,6 @@ dynamic _returnResponse(Response resp) {
   switch (resp.statusCode) {
     case 200:
       dynamic decoder = json.decode(resp.body);
-      print(decoder);
       return decoder;
     case 400:
       throw BadRequestException(resp.body);
