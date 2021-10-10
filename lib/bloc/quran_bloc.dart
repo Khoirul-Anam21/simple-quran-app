@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:my_quran/bloc/surah_bloc.dart';
+import 'package:my_quran/models/ayat/ayat.dart';
 import 'package:my_quran/models/surah/surah.dart';
 import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/repository/quran_repository.dart';
@@ -35,23 +37,3 @@ class QuranBloc {
   }
 }
 
-void main() async {
-  QuranBloc bloc = QuranBloc();
-  List<Surah> surahs = <Surah>[];
-  bloc.quranDataStream.listen((event) {
-    switch (event.status) {
-      case Status.Loading:
-        print('Loading...');
-        break;
-      case Status.Error:
-        print('Something went wrong');
-        break;
-      case Status.Complete:
-        event.data!.forEach((surah) => print(surah.name!.transliteration!.id));
-        break;
-      default:
-        print('no data');
-    }
-  }, onError: (e) => print(e), onDone: () => print('done'));
-  print(surahs);
-}

@@ -1,4 +1,6 @@
+import 'package:my_quran/bloc/surah_bloc.dart';
 import 'package:my_quran/models/ayat/ayat.dart';
+import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/repository/ayat_repository.dart';
 import 'package:my_quran/repository/surah_repository.dart';
 
@@ -25,18 +27,17 @@ class Surah {
   List<Verse>? verses;
 
   factory Surah.fromJson(Map<String, dynamic> json) {
+    
     return Surah(
-        number: json["number"],
-        sequence: json["sequence"],
-        numberOfVerses: json["numberOfVerses"],
-        name: Name.fromJson(json["name"]),
-        revelation: Revelation.fromJson(json["revelation"]),
-        preBismillah: json["preBismillah"],
-        );
+      number: json["number"],
+      sequence: json["sequence"],
+      numberOfVerses: json["numberOfVerses"],
+      name: Name.fromJson(json["name"]),
+      revelation: Revelation.fromJson(json["revelation"]),
+      preBismillah: json["preBismillah"],
+    );
   }
 
-
-  
 
   Map<String, dynamic> toJson() => {
         "number": number,

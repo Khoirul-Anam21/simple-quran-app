@@ -1,10 +1,14 @@
 import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:my_quran/bloc/quran_bloc.dart';
 import 'package:my_quran/models/surah/surah.dart';
 import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/repository/quran_repository.dart';
+import 'package:my_quran/view/main_view/main_quran_view.dart';
+
+import 'colors/themes.dart';
 
 void main() {
   runApp(MyApp());
@@ -15,11 +19,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Flutter Demo n',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: MyHomePage(title: 'Flutter Demo Home Page'),
+          textTheme: TextTheme(
+            caption: GoogleFonts.roboto(
+              textStyle: TextStyle(color: Colors.white60),
+            ),
+            bodyText1: GoogleFonts.arapey(
+              textStyle: TextStyle(color: Colors.white70, fontSize: 36)
+            ),
+            headline3: GoogleFonts.arapey(
+              textStyle: TextStyle(color: AppTheme.kDarkTextColor)
+            ),
+            headline6: GoogleFonts.poppins(
+                textStyle: TextStyle(color: AppTheme.kDarkTextColor)),
+          ),
+          primaryColor: AppTheme.kPrimaryColor,
+          scaffoldBackgroundColor: AppTheme.kBgColor,
+          appBarTheme: AppBarTheme(backgroundColor: AppTheme.kPrimaryColor)),
+      home: QuranView(),
     );
   }
 }
@@ -128,7 +147,8 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
                       case Status.Error:
                         return Text('Error');
                       case Status.Complete:
-                        return Text('${snapshot.data!.data!.elementAt(3).name!.long}');
+                        return Text(
+                            '${snapshot.data!.data!.elementAt(3).name!.long}');
                       default:
                         throw Exception('Error');
                     }
@@ -139,7 +159,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: null,
         tooltip: 'Increment',
         child: Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
