@@ -38,6 +38,7 @@ class QuranView extends StatelessWidget {
               const SizedBox(height: 20),
               QuranButton(
                   title: 'Read Quran',
+                  navigate: '/surah',
                   imageURL:
                       'assets/images/islamic-new-year-decoration-with-praying-beads-quran.jpg'),
               QuranButton(
