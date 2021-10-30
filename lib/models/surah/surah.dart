@@ -1,13 +1,16 @@
-import 'package:my_quran/bloc/surah_bloc.dart';
+
+import 'package:hive/hive.dart';
 import 'package:my_quran/models/ayat/ayat.dart';
-import 'package:my_quran/network/api_response.dart';
-import 'package:my_quran/repository/ayat_repository.dart';
-import 'package:my_quran/repository/surah_repository.dart';
+
 
 import 'name.dart';
 import 'revelation.dart';
 
-class Surah {
+part '../adapters/surah/surah.g.dart';
+
+
+@HiveType(typeId: 2)
+class Surah extends HiveObject{
   Surah({
     this.number,
     this.sequence,

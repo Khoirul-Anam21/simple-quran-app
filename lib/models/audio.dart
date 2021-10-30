@@ -1,10 +1,17 @@
-class Audio {
+import 'package:hive/hive.dart';
+
+part 'adapters/audio.g.dart';
+
+@HiveType(typeId: 0)
+class Audio extends HiveObject{
   Audio({
     this.primary,
     this.secondary,
   });
-
+  @HiveField(0)
   String? primary;
+
+  @HiveField(1)
   List<String>? secondary;
 
   factory Audio.fromJson(Map<String, dynamic> json) => Audio(

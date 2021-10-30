@@ -1,4 +1,9 @@
-class Revelation {
+import 'package:hive/hive.dart';
+
+part '../adapters/surah/revelation.g.dart';
+
+@HiveType(typeId: 3)
+class Revelation extends HiveObject{
   Revelation({
     this.arab,
     this.en,

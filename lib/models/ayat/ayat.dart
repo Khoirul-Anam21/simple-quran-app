@@ -1,10 +1,15 @@
+import 'package:hive/hive.dart';
+
 import '../audio.dart';
 import '../ayat_translation.dart';
 import 'ayat_info.dart';
 import 'number.dart';
 import 'text.dart';
 
-class Verse {
+part '../adapters/ayat/ayat.g.dart';
+
+@HiveType(typeId: 5)
+class Verse extends HiveObject{
     Verse({
         this.number,
         this.meta,
@@ -13,10 +18,19 @@ class Verse {
         this.audio,
     });
 
+    @HiveField(0)
     Number? number;
+
+    @HiveField(1)
     AyatInfo? meta;
+
+    @HiveField(2)
     Text? text;
+
+    @HiveField(3)
     Translation? translation;
+    
+    @HiveField(4)
     Audio? audio;
 
     factory Verse.fromJson(Map<String, dynamic> json) => Verse(

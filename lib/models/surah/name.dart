@@ -1,6 +1,10 @@
-import '../ayat_translation.dart';
+import 'package:hive/hive.dart';
 
-class Name {
+import '../ayat_translation.dart';
+part '../adapters/surah/name.g.dart';
+
+@HiveType(typeId: 4)
+class Name extends HiveObject{
   Name({
     this.short,
     this.long,

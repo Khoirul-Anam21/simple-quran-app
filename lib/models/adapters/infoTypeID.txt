@@ -1,0 +1,17 @@
+Surah data:
+Audio = TI(0) generated
+AyatTranslation = TI(1) 
+Surah = TI(2)
+Revelation = TI(3)
+Name = TI(4)
+
+Ayat data:
+Verse/Ayat = TI(5)
+Number = TI(6)
+AyatInfo = TI(7)
+Sajadah = TI(8)
+Text = TI(9)
+Ayat Transliteration = TI(10)
+
+
+
