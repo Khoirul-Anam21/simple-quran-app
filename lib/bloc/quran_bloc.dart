@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:hive/hive.dart';
 import 'package:my_quran/bloc/surah_bloc.dart';
 import 'package:my_quran/models/ayat/ayat.dart';
 import 'package:my_quran/models/surah/surah.dart';
@@ -24,16 +25,23 @@ class QuranBloc {
 
   void fetchSurahList() async {
     quranDataSink.add(APIResponse.loading('Fetching surah.....'));
-    try {
-      List<Surah> _surahs = await _quranRepository.fetchSurahList();
-      quranDataSink.add(APIResponse.complete(_surahs));
-    } catch (e) {
-      quranDataSink.add(APIResponse.error(e.toString()));
+    var _surahBox = Hive.box<Surah>('surah');
+    if (_surahBox.isEmpty) {
+      try {
+        List<Surah> _surahs = await _quranRepository.fetchSurahList();
+        _surahs.forEach((surah) {
+          _surahBox.add(surah);
+          surah.save();
+        });
+      } catch (e) {
+        quranDataSink.add(APIResponse.error(e.toString()));
+      }
+      
     }
+    quranDataSink.add(APIResponse.complete(_surahBox.values.toList()));
   }
 
   void dispose() {
     _quranSurahListController.close();
   }
 }
-

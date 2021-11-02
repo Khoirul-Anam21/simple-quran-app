@@ -2,16 +2,37 @@ import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:my_quran/bloc/quran_bloc.dart';
-import 'package:my_quran/models/surah/surah.dart';
+import 'package:my_quran/models/model_library.dart' as aqn;
 import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/repository/quran_repository.dart';
 import 'package:my_quran/view/main_view/main_quran_view.dart';
-
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'theme/themes.dart';
 import 'view/surah_view/main_surah_view.dart';
 
-void main() {
+void main() async {
+  await Hive.initFlutter();
+  registerAdapter();
+  await Hive.openBox<aqn.Surah>('surah');
+  var tes = Hive.box<aqn.Surah>('surah');
+  await tes.clear();
+  print(tes.length);
   runApp(MyApp());
+}
+
+void registerAdapter() async {
+  Hive.registerAdapter<aqn.Audio>(aqn.AudioAdapter());
+  Hive.registerAdapter<aqn.Translation>(aqn.TranslationAdapter());
+  Hive.registerAdapter<aqn.Surah>(aqn.SurahAdapter());
+  Hive.registerAdapter<aqn.Name>(aqn.NameAdapter());
+  Hive.registerAdapter<aqn.Revelation>(aqn.RevelationAdapter());
+  Hive.registerAdapter<aqn.AyatInfo>(aqn.AyatInfoAdapter());
+  Hive.registerAdapter<aqn.Sajda>(aqn.SajdaAdapter());
+  Hive.registerAdapter<aqn.Verse>(aqn.VerseAdapter());
+  Hive.registerAdapter<aqn.Number>(aqn.NumberAdapter());
+  Hive.registerAdapter<aqn.AyatTransliteration>(
+      aqn.AyatTransliterationAdapter());
 }
 
 class MyApp extends StatelessWidget {
@@ -27,8 +48,8 @@ class MyApp extends StatelessWidget {
           scaffoldBackgroundColor: AppTheme.kBgColor,
           appBarTheme: AppBarTheme(backgroundColor: AppTheme.kPrimaryColor)),
       routes: {
-        '/': (context)=>QuranView(),
-        '/surah':(context)=> SurahView()
+        '/': (context) => QuranView(),
+        '/surah': (context) => SurahView()
       },
       initialRoute: '/',
     );
@@ -108,7 +129,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
 
   void testQuranRepo() async {
     QuranRepository _quranRepo = QuranRepository();
-    List<Surah> _surahs = await _quranRepo.fetchSurahList();
+    List<aqn.Surah> _surahs = await _quranRepo.fetchSurahList();
     _surahs.forEach((element) => print(element.name));
   }
 
@@ -129,7 +150,7 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver {
               '$_counter',
               style: Theme.of(context).textTheme.headline4,
             ),
-            StreamBuilder<APIResponse<List<Surah>>>(
+            StreamBuilder<APIResponse<List<aqn.Surah>>>(
                 stream: qurBloc.quranDataStream,
                 builder: (context, snapshot) {
                   if (snapshot.hasData) {
