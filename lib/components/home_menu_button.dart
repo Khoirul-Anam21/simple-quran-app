@@ -6,6 +6,7 @@ class QuranButton extends StatelessWidget {
       required this.title,
       this.navigate,
       required this.imageURL,
+      this.onTap,
       this.isLastRead = false})
       : super(key: key);
 
@@ -13,11 +14,12 @@ class QuranButton extends StatelessWidget {
   final String imageURL;
   final bool? isLastRead;
   final String? navigate;
+  final void Function()? onTap;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: ()=>Navigator.pushNamed(context, navigate!),
+      onTap: onTap,
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
         width: double.infinity,
@@ -60,19 +62,5 @@ class QuranButton extends StatelessWidget {
         ),
       ),
     );
-  }
-}
-
-class LastReadText extends StatefulWidget {
-  LastReadText({Key? key}) : super(key: key);
-
-  @override
-  _LastReadTextState createState() => _LastReadTextState();
-}
-
-class _LastReadTextState extends State<LastReadText> {
-  @override
-  Widget build(BuildContext context) {
-    return Container();
   }
 }

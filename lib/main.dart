@@ -3,11 +3,14 @@ import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:my_quran/bloc/quran_bloc.dart';
 import 'package:my_quran/models/model_library.dart' as aqn;
+import 'package:my_quran/models/surah/surah.dart';
 import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/repository/quran_repository.dart';
+import 'package:my_quran/view/bookmarks.dart';
 import 'package:my_quran/view/main_view/main_quran_view.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/hive_flutter.dart';
+import 'package:provider/provider.dart';
 import 'theme/themes.dart';
 import 'view/surah_view/main_surah_view.dart';
 
@@ -15,9 +18,7 @@ void main() async {
   await Hive.initFlutter();
   registerAdapter();
   await Hive.openBox<aqn.Surah>('surah');
-  var tes = Hive.box<aqn.Surah>('surah');
-  await tes.clear();
-  print(tes.length);
+  // await Hive.box<aqn.Surah>('surah').clear();
   runApp(MyApp());
 }
 
@@ -39,19 +40,27 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo n',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-          textTheme: AppTheme.kMainTextTheme,
-          primaryColor: AppTheme.kPrimaryColor,
-          scaffoldBackgroundColor: AppTheme.kBgColor,
-          appBarTheme: AppBarTheme(backgroundColor: AppTheme.kPrimaryColor)),
-      routes: {
-        '/': (context) => QuranView(),
-        '/surah': (context) => SurahView()
-      },
-      initialRoute: '/',
+    return MultiProvider(
+      providers: [
+        StreamProvider(
+            create: (context) => QuranBloc().quranDataStream,
+            initialData: APIResponse<List<Surah>>.loading('Loading'))
+      ],
+      child: MaterialApp(
+        title: 'Flutter Demo n',
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+            textTheme: AppTheme.kMainTextTheme,
+            primaryColor: AppTheme.kPrimaryColor,
+            scaffoldBackgroundColor: AppTheme.kBgColor,
+            appBarTheme: AppBarTheme(backgroundColor: AppTheme.kPrimaryColor)),
+        routes: {
+          '/': (context) => QuranView(),
+          '/surah': (context) => SurahView(),
+          '/bookmark': (context) => BookMarkView()
+        },
+        initialRoute: '/',
+      ),
     );
   }
 }

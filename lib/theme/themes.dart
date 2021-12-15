@@ -22,6 +22,8 @@ class AppTheme {
     
     bodyText1: GoogleFonts.arapey(
         textStyle: TextStyle(color: Colors.white70, fontSize: 36)),
+    bodyText2: GoogleFonts.arapey(
+        textStyle: TextStyle(color: Colors.black87, fontSize: 30)),
     
 caption: GoogleFonts.roboto(
       textStyle: TextStyle(color: Colors.white60),

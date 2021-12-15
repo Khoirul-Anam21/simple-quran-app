@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:my_quran/view/main_view/navigation_button_templ.dart';
+import 'package:my_quran/components/components.dart';
+import 'package:my_quran/view/main_view/menu_buttons.dart';
+
 
 class QuranView extends StatelessWidget {
   const QuranView({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -22,7 +23,9 @@ class QuranView extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 12,),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                ),
                 child: Text('Read Quran & Gain Your Peace',
                     style: Theme.of(context).textTheme.headline3,
                     textAlign: TextAlign.center),
@@ -36,11 +39,7 @@ class QuranView extends StatelessWidget {
                 color: Theme.of(context).primaryColor,
               ),
               const SizedBox(height: 20),
-              QuranButton(
-                  title: 'Read Quran',
-                  navigate: '/surah',
-                  imageURL:
-                      'assets/images/islamic-new-year-decoration-with-praying-beads-quran.jpg'),
+              ReadQuranMenuButton(),
               QuranButton(
                 title: 'Last Read',
                 imageURL:
@@ -49,8 +48,10 @@ class QuranView extends StatelessWidget {
               ),
               QuranButton(
                   title: 'Bookmarks',
+                  navigate: '/bookmark',
                   imageURL:
                       'assets/images/prayer-beads-candle-near-religious-book.jpg')
             ]));
   }
 }
+
