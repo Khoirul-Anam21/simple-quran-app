@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:my_quran/components/components.dart';
+import 'package:my_quran/view/ayat_view/main_ayat_view.dart';
 import 'package:my_quran/view/main_view/menu_buttons.dart';
-
 
 class QuranView extends StatelessWidget {
   const QuranView({Key? key}) : super(key: key);
@@ -49,9 +49,12 @@ class QuranView extends StatelessWidget {
               QuranButton(
                   title: 'Bookmarks',
                   navigate: '/bookmark',
+                  onTap: () {
+                    Navigator.push(
+                        context, MaterialPageRoute(builder: (_) => AyatView()));
+                  },
                   imageURL:
                       'assets/images/prayer-beads-candle-near-religious-book.jpg')
             ]));
   }
 }
-

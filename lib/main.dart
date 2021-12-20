@@ -2,6 +2,7 @@ import 'package:audio_session/audio_session.dart';
 import 'package:flutter/material.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:my_quran/bloc/quran_bloc.dart';
+import 'package:my_quran/components/components.dart';
 import 'package:my_quran/models/model_library.dart' as aqn;
 import 'package:my_quran/models/surah/surah.dart';
 import 'package:my_quran/network/api_response.dart';
@@ -18,7 +19,7 @@ void main() async {
   await Hive.initFlutter();
   registerAdapter();
   await Hive.openBox<aqn.Surah>('surah');
-  // await Hive.box<aqn.Surah>('surah').clear();
+  // await Hive.box<aqn.Surah>('surah').clear(); //restart the data fetching
   runApp(MyApp());
 }
 
@@ -49,6 +50,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'Flutter Demo n',
         debugShowCheckedModeBanner: false,
+        scrollBehavior: CustomScrollBehaviour(),
         theme: ThemeData(
             textTheme: AppTheme.kMainTextTheme,
             primaryColor: AppTheme.kPrimaryColor,

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:my_quran/bloc/quran_bloc.dart';
 import 'package:my_quran/models/surah/surah.dart';
 import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/theme/themes.dart';
 import 'package:provider/provider.dart';
+
 
 import 'surah_list.dart';
 
@@ -15,30 +15,23 @@ class SurahView extends StatefulWidget {
 }
 
 class _SurahViewState extends State<SurahView> {
-
   @override
   void initState() {
     super.initState();
-  }
-
-  Widget buildLoadingWidget() {
-    return Center(
-      child: FlutterLogo(),
-    );
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: Consumer<APIResponse<List<Surah>>>(
       builder: (BuildContext context, response, Widget? child) {
-        return SurahScreen(surahData: response.data!);
+        return SurahBody(surahData: response.data!);
       },
     ));
   }
 }
 
-class SurahScreen extends StatelessWidget {
-  const SurahScreen({
+class SurahBody extends StatelessWidget {
+  const SurahBody({
     Key? key,
     required this.surahData,
   }) : super(key: key);

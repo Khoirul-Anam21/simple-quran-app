@@ -21,12 +21,26 @@ class Surah extends HiveObject{
     this.verses,
   });
 
+  //TODO: add hivefields
+  @HiveField(0)
   int? number;
+
+  @HiveField(1)
   int? sequence;
+  
+  @HiveField(2)
   int? numberOfVerses;
+
+  @HiveField(3)
   Name? name;
+
+  @HiveField(4)
   Revelation? revelation;
+
+  @HiveField(5)
   dynamic preBismillah;
+
+  @HiveField(6)
   List<Verse>? verses;
 
   factory Surah.fromJson(Map<String, dynamic> json) {

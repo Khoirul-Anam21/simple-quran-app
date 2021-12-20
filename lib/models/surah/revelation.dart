@@ -9,9 +9,13 @@ class Revelation extends HiveObject{
     this.en,
     this.id,
   });
-
+  @HiveField(0)
   String? arab;
+
+  @HiveField(1)
   String? en;
+
+  @HiveField(2)
   String? id;
 
   factory Revelation.fromJson(Map<String, dynamic> json) => Revelation(

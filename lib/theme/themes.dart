@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class AppTheme {
+  static final Color kYellowTextColor = Color(0xffFFD541);
   static final Color kBgColor = Color(0xffE8F8FF);
   static final Color kPrimaryColor = Color(0xff2B3342);
   static final Color kSecondaryColor = Color(0xff4E5860);
@@ -19,13 +20,11 @@ class AppTheme {
     headline5: GoogleFonts.poppins(),
     headline6: GoogleFonts.poppins(
         textStyle: TextStyle(color: AppTheme.kDarkTextColor)),
-    
     bodyText1: GoogleFonts.arapey(
         textStyle: TextStyle(color: Colors.white70, fontSize: 36)),
     bodyText2: GoogleFonts.arapey(
         textStyle: TextStyle(color: Colors.black87, fontSize: 30)),
-    
-caption: GoogleFonts.roboto(
+    caption: GoogleFonts.roboto(
       textStyle: TextStyle(color: Colors.white60),
     ),
   );

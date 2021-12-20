@@ -12,9 +12,16 @@ class Name extends HiveObject{
     this.translation,
   });
 
+  @HiveField(0)
   String? short;
+
+  @HiveField(1)
   String? long;
+
+  @HiveField(2)
   Translation? transliteration;
+
+  @HiveField(3)
   Translation? translation;
 
   factory Name.fromJson(Map<String, dynamic> json) => Name(
