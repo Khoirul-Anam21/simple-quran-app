@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
+import 'package:hive/hive.dart';
+import 'package:my_quran/models/ayat/ayat.dart';
+import 'package:my_quran/models/surah/surah.dart';
+import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/theme/themes.dart';
+import 'package:provider/provider.dart';
 import 'package:my_quran/components/components.dart';
 
 class AyatView extends StatefulWidget {
-  const AyatView({Key? key}) : super(key: key);
+  const AyatView({Key? key, this.selectionNum = 0}) : super(key: key);
+
+  //TODO: Prototype, Use provider instead
+  final int? selectionNum;
 
   @override
   State<AyatView> createState() => _AyatViewState();
@@ -16,13 +24,33 @@ class _AyatViewState extends State<AyatView>
   @override
   void initState() {
     super.initState();
-    _tabController = TabController(length: 20, vsync: this);
+    _tabController = TabController(
+        length: 114, vsync: this, initialIndex: widget.selectionNum! - 1);
   }
 
   @override
   void dispose() {
     _tabController.dispose();
     super.dispose();
+  }
+
+  List<Surah> getData() {
+    var surahConsumer = context.watch<APIResponse<List<Surah>>>();
+    List<Surah> surahs = [];
+    switch (surahConsumer.status) {
+      case Status.Loading:
+        print('lol');
+        break;
+      case Status.Error:
+        print('lol error');
+        break;
+      case Status.Complete:
+        surahs = surahConsumer.data!;
+        break;
+      default:
+        print('no Data');
+    }
+    return surahs;
   }
 
   @override
@@ -41,32 +69,38 @@ class _AyatViewState extends State<AyatView>
                 controller: _tabController,
                 labelStyle: TextStyle(color: Colors.white),
                 unselectedLabelStyle: TextStyle(color: Colors.white54),
-                tabs: List.generate(
-                    20,
-                    (index) => Tab(
-                          text: '$index\. Al-Quran',
-                        )))),
+                tabs: getData()
+                    .map((surah) => Tab(
+                          text:
+                              '${surah.number} ${surah.name!.transliteration!.id}',
+                        ))
+                    .toList())),
         body: TabBarView(
             controller: _tabController,
-            children: List.generate(20, (index) => AyatBody())));
+            children: getData()
+                .map((surah) => AyatBody(ayats: surah.verses!))
+                .toList()));
   }
 }
 
 class AyatBody extends StatelessWidget {
-  const AyatBody({
-    Key? key,
-  }) : super(key: key);
+  const AyatBody({Key? key, required this.ayats}) : super(key: key);
+
+  final HiveList<Verse> ayats;
 
   @override
   Widget build(BuildContext context) {
     return ListView(
       children: <Widget>[
         AyatTitle(),
-        ...List.generate(25, (index) => AyatTile())
+        ...ayats
+            .map((ayat) => AyatTile(
+                  ayat: ayat.text!.arab!,
+                  transliteration: ayat.text!.transliteration!.en!,
+                  ayatNum: ayat.number!.inSurah!,
+                ))
+            .toList(),
       ],
     );
   }
 }
-
-
-

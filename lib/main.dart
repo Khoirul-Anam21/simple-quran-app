@@ -19,7 +19,8 @@ void main() async {
   await Hive.initFlutter();
   registerAdapter();
   await Hive.openBox<aqn.Surah>('surah');
-  // await Hive.box<aqn.Surah>('surah').clear(); //restart the data fetching
+  await Hive.openBox<aqn.Verse>('verse');
+  await Hive.box<aqn.Surah>('surah').clear(); //restart the data fetching
   runApp(MyApp());
 }
 
@@ -35,6 +36,7 @@ void registerAdapter() async {
   Hive.registerAdapter<aqn.Number>(aqn.NumberAdapter());
   Hive.registerAdapter<aqn.AyatTransliteration>(
       aqn.AyatTransliterationAdapter());
+  Hive.registerAdapter<aqn.Text>(aqn.TextAdapter());
 }
 
 class MyApp extends StatelessWidget {

@@ -4,7 +4,6 @@ import 'package:my_quran/network/api_response.dart';
 import 'package:my_quran/theme/themes.dart';
 import 'package:provider/provider.dart';
 
-
 import 'surah_list.dart';
 
 class SurahView extends StatefulWidget {
@@ -24,6 +23,9 @@ class _SurahViewState extends State<SurahView> {
   Widget build(BuildContext context) {
     return Scaffold(body: Consumer<APIResponse<List<Surah>>>(
       builder: (BuildContext context, response, Widget? child) {
+        response.data!.forEach((surah) {
+          print('${surah.name!.transliteration!.id}  ${surah.verses}');
+        });
         return SurahBody(surahData: response.data!);
       },
     ));

@@ -41,7 +41,7 @@ class Surah extends HiveObject{
   dynamic preBismillah;
 
   @HiveField(6)
-  List<Verse>? verses;
+  HiveList<Verse>? verses;
 
   factory Surah.fromJson(Map<String, dynamic> json) {
     
@@ -63,6 +63,6 @@ class Surah extends HiveObject{
         "name": name!.toJson(),
         "revelation": revelation!.toJson(),
         "preBismillah": preBismillah,
-        "verses": List<dynamic>.from(verses!.map((x) => x.toJson())),
+        
       };
 }
